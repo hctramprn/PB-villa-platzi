@@ -112,6 +112,12 @@ function dibujar() {
       lienzo.drawImage(pollo.imagen, x, y)
     }
   }
+
+//Código que mueve el cerdo con las teclas
+  if (cerdo2.cargaOK) {
+    //console.log("El cerdo aparece");
+    lienzo.drawImage(cerdo2.imagen, posx, posy);
+  }
 }
 
 
@@ -119,4 +125,59 @@ function dibujar() {
 function aleatorio(min, max) {
   var resultado = Math.floor(Math.random() * ((max - min) + 1)) + min;
   return resultado;
+}
+
+
+//El cerdo que se moverá
+var cerdo2 = {
+  cargaOK: false
+};
+
+//Mismo código que con los otros animales
+cerdo2.imagen = new Image();
+cerdo2.imagen.src = "imagenes/cerdo.png";
+cerdo2.imagen.addEventListener("load", cargarCerdo2);
+
+function cargarCerdo2() {
+  cerdo2.cargaOK = true;
+  dibujar()
+};
+
+var teclas = {
+  UP: 38,
+  DOWN: 40,
+  LEFT: 37,
+  RIGHT: 39
+};
+
+//La posición en la que empezará el cerdo2
+var posx = (vp.width/2) - 40;
+var posy = (vp.width/2) - 40;
+var movimiento = 10;
+
+//Evento que dispara la función que mueve el cerdo al pulsar una tecla
+document.addEventListener("keydown", moverCerdo);
+
+//Case que modifica las posiciones de X y Y dependiendo de la tecla de flechas que se pulse
+function moverCerdo(evento) {
+  switch (evento.keyCode) {
+    case teclas.UP:
+      posy = posy - movimiento;
+      dibujar();
+      break;
+    case teclas.DOWN:
+      posy = posy + movimiento;
+      dibujar();
+      break;
+    case teclas.LEFT:
+      posx = posx - movimiento;
+      dibujar();
+      break;
+    case teclas.RIGHT:
+      posx = posx + movimiento;
+      dibujar();
+      break;
+    default:
+      console.log("Se pulsó otra tecla");
+  }
 }
